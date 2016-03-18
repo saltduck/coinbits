@@ -619,7 +619,9 @@ class GetBlocks(SerializableMessage):
     """The getblocks command."""
     command = "getblocks"
 
-    def __init__(self, hashes):
+    def __init__(self, hashes=None):
+        if hashes is None:
+            hashes = []
         self.version = fields.PROTOCOL_VERSION
         self.hash_count = len(hashes)
         self.hash_stop = 0
