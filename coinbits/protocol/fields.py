@@ -355,6 +355,15 @@ class BlockLocator(Field):
     def parse(self, values):
         self.values = values
 
+    def deserialize(self, stream):
+        data_size = struct.calcsize(self.datatype)
+        intvalue = 0
+        for i in range(8):
+            data = stream.read(data_size)
+            val = struct.unpack(self.datatype, data)[0]
+            intvalue += val << (i * 32)
+        return intvalue
+
     def serialize(self):
         bin_data = StringIO()
         for hash_ in self.values:
